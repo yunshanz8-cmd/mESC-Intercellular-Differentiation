@@ -55,7 +55,7 @@ def GetRadiusandCenter(agents):
     #now return
     return radius, center
 def closest_nbs(network):
-    nodes=network.nodes()
+    nodes=list(network.nodes())
 ##    nbs = np.zeros((len(nodes),len(nodes)))
     nbs=np.zeros((len(nodes),2))
     
@@ -87,7 +87,7 @@ def extractMetrics(network):
     limit=0.6
     mu_lim=0.05
     diffCells=0
-    nodes=network.nodes()
+    nodes=list(network.nodes())
     subNet=nx.Graph()
     node_ref=dict()
     nP=len(nodes)
@@ -104,7 +104,7 @@ def extractMetrics(network):
         reg=region(i)
         subNet.add_node(reg)
 
-    regs=subNet.nodes()
+    regs=list(subNet.nodes())
     for i in range(nP):
         node=nodes[i]
         reg=regs[i]
@@ -113,7 +113,7 @@ def extractMetrics(network):
             val=0
         else:
             val=1
-        nbs=network.neighbors(node)
+        nbs=list(network.neighbors(node))
         for j in range(len(nbs)):
             nb=nbs[j]
             
@@ -129,7 +129,7 @@ def extractMetrics(network):
         data[i,1]=val
 
 
-    cell_bodies=nx.connected_components(subNet)
+    cell_bodies=list(nx.connected_components(subNet))
     if len(cell_bodies)>1:
         for i in range(1,len(cell_bodies)):
             clust=cell_bodies[i]
@@ -158,8 +158,8 @@ def extractMetrics(network):
     UD=subNet.copy()
     nodes=subNet.nodes()
 
-    d_edges=D.edges()
-    ud_edges=UD.edges()
+    d_edges=list(D.edges())
+    ud_edges=list(UD.edges())
     for i in range(len(d_edges)):
         edge=d_edges[i]
         edge2=ud_edges[i]
@@ -192,8 +192,8 @@ def extractMetrics(network):
     dat_anal[1]=inout_ratios[1]/len(outside_nodes)
     dat_anal[6]=dat_anal[1]/(0.75+dat_anal[0])
 
-    p= nx.connected_components(D)
-    pud=nx.connected_components(UD)
+    p= list(nx.connected_components(D))
+    pud=list(nx.connected_components(UD))
     rad_avg = []
     for j in range(len(pud)):
         if pud[j][0].state==0:
@@ -231,9 +231,9 @@ def extractMetrics(network):
             rej_clustUD=rej_clustUD+1
 
     
-    edges=D.edges()
-    edgesUD=UD.edges()
-    num_nodes=float(len(subNet.nodes()))
+    edges=list(D.edges())
+    edgesUD=list(UD.edges())
+    num_nodes=float(len(subNet))
     
     for i in range(len(clustersUD)):
     

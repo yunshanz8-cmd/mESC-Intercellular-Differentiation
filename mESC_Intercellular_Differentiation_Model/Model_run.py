@@ -2,6 +2,7 @@ import Model_initialParameters as mod
 from CountDirectory import newDirect
 import sys
 import getpass
+import os
 
 
 if(__name__ == '__main__'):
@@ -10,7 +11,13 @@ if(__name__ == '__main__'):
     
     ##Set save path for simulations. If you create a new, empty folder 
     ##then everytime you run this code it will make a new Simulation folder
-    path="D:\\Final FP Sims\\Tests"
+    ##IMPORTANT: Change this path to your desired output directory
+    path="F:\\yz\\simulations"  # Update this path before running!
+    
+    # Create directory if it doesn't exist
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"Created output directory: {path}")
 
     inh_val=[1.0]
     per_inh=[1.0]

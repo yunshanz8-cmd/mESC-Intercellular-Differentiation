@@ -65,7 +65,7 @@ class IntC_Diff(object):
             for j in range(n1):
                 div=Abs(j-(division_times[i]/4.0))
                 cell_cycle_effect[j,i]=1/(1+(div/(division_times[i]/4.0))**2)+0.69*j**6/(j**6+division_times[i]**6)
-                print cell_cycle_effect[j,i]
+                print(cell_cycle_effect[j,i])
           
         self.cce=cell_cycle_effect
         #set the spatial resolution in each direction
@@ -343,8 +343,8 @@ class IntC_Diff(object):
         """
         return self.name + ": "  + " " + repr(np.min(self.C)) + " " + repr(np.max(self.C))
     
-    @atexit.register
     def garbage_collect(self):
+        """Manual garbage collection - called automatically by Python"""
         gc.collect()
                          
 

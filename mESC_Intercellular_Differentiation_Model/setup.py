@@ -15,8 +15,11 @@ To compile go to a command console and:
 1. Change to this directory (type cd, press space then drag/drop this folder to the console. Press enter)
 2. Type out: "python setup.py build_ext --inplace" without the quotation marks. Press enter.
 
+Python 3 compatible version.
 """
 setup(
-    ext_modules=cythonize('IntC_FP.pyx'),
-    include_dirs=[numpy.get_include()]
+    name='mESC_Intercellular_Differentiation',
+    ext_modules=cythonize('IntC_FP.pyx', language_level=3),
+    include_dirs=[numpy.get_include()],
+    python_requires='>=3.6',
     )

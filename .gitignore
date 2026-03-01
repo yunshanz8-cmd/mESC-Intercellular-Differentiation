@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.Python
+
+# Cython compiled files
+*.c
+*.pyd
+*.pyd.manifest
+*.exp
+*.lib
+IntC_FP.c
+IntC_Diffusion_C.c
+NLGradient_C.c
+
+# Cython build directories
+mESC_Intercellular_Differentiation_Model_build/
+build/
+lib.*/
+temp.*/
+
+# Simulation output files
+simulations/
+*.gpickle
+*.sim
+*.npy
+cAMP_*
+network*.gpickle
+copiedTM/
+
+# Backup files
+*_old.gpickle
+*_py3.gpickle
+Colony_old.gpickle
+
+# Visualization outputs
+*.png
+*.jpg
+*.pdf
+visualization.png
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data files (keep only essential ones)
+# Uncomment if you want to exclude large data files:
+# TrainSet.npy
+# sim_pca.npy
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

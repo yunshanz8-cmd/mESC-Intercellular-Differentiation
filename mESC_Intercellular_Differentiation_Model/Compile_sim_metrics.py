@@ -3,6 +3,7 @@ from extractMetrics import *
 
 import os, sys
 import networkx as nx
+import pickle
 
 
 
@@ -21,13 +22,14 @@ for fold_num in range(1,2,1):
     da=[]
     for q in qnum:
         temp=path+"network"+repr(q)+".0.gpickle"
-        network = nx.read_gpickle(temp)
+        with open(temp, 'rb') as f:
+            network = pickle.load(f)
         dat_anl=extractMetrics(network)
-        print dat_anl
+        print(dat_anl)
         da.append(dat_anl)
         da_temp=np.asarray(da)
         np.save(path+"sim_pca.npy",da)
-        print "Network ", q        
+        print("Network ", q)        
     da=np.asarray(da)
 ##    np.save(path+"sim_pca.npy",da)
 

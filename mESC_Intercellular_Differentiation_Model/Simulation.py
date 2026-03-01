@@ -178,7 +178,8 @@ class TimeSeries(object):
         """ Loads the specific network from the time point and returns it
             returns - network file
         """
-        return nx.read_gpickle(self._networks[time])
+        with open(self._networks[time], 'rb') as f:
+            return pickle.load(f)
 
  
 
@@ -392,7 +393,7 @@ class Simulation(object):
     def cellProfiler_fix(self,n):
         net=self.network
         agents=self.objects
-        clusters=nx.connected_components(net)
+        clusters=list(nx.connected_components(net))
         clust_size=0
         for i in range(len(clusters)):
             if i!= n:
@@ -419,8 +420,8 @@ class Simulation(object):
         final_path=self.path + self._sep + self.name+self._sep+"copiedTM"
         try:
             shutil.copytree(struct_path,final_path)
-        except WindowsError:
-            print "Replacing Model files...hope you wanted that."
+        except OSError:
+            print("Replacing Model files...hope you wanted that.")
             shutil.rmtree(final_path)
             shutil.copytree(struct_path,final_path)
         #create the simulation header file
@@ -440,7 +441,7 @@ class Simulation(object):
             try:
                 self.collide()
             except:
-                print "manual collide"
+                print("manual collide")
                 self.collide_lowDens()
                 #now optimize the resultant constraints
             self.optimize()
@@ -524,7 +525,7 @@ class Simulation(object):
 
         #Update nieghbor matrix for intercellular module
         nbs1=[]
-        edges = self.network.edges()      
+        edges = list(self.network.edges())      
         for k in range(len(edges)):
             edge = edges[k]
             #first find the distance of the edge
@@ -533,7 +534,7 @@ class Simulation(object):
             i=obj1.ID
             j=obj2.ID
             nbs1.append([i,j])
-        nbs2=np.asarray(nbs1)
+        nbs2=np.asarray(nbs1, dtype=np.int32)
 
         for i in range(len(self.interC)):
             
@@ -589,7 +590,7 @@ class Simulation(object):
                     self.network.add_edge(self.objects[ns[a]],
                                           self.objects[ns[b]])
         #now loop over all of these cells and cull the interaction lists
-        edges = self.network.edges()
+        edges = list(self.network.edges())
         #keep track of interactions checked
         
         for i in range(0, len(edges)):
@@ -632,7 +633,7 @@ class Simulation(object):
                 self.network.add_edge(self.objects[i],
                                       self.objects[j])
 
-        edges = self.network.edges()
+        edges = list(self.network.edges())
         #keep track of interactions checked
         
         for i in range(0, len(edges)):
@@ -692,9 +693,9 @@ class Simulation(object):
         """
         col = 0
         opt = 0
-        edges = self.network.edges()
+        edges = list(self.network.edges())
         cent=self.get_center()
-        for i in range(0, len(self.network.edges())):
+        for i in range(0, len(edges)):
             #for each edge optimize the spring interaction
             edge = edges[i]
             #get the objects
@@ -757,7 +758,7 @@ class Simulation(object):
         """
         """
         error = 0
-        edges = self._fixed_constraints.edges()
+        edges = list(self._fixed_constraints.edges())
         for i in range(0, len(edges)):
             #for each edge optimize the spring interaction
             edge = edges[i]
@@ -846,7 +847,8 @@ class Simulation(object):
         base_path = self.path +self._sep +self.name + self._sep
         #First save the network files
         n_path = base_path + "network" + repr(self.time) + ".gpickle"
-        nx.write_gpickle(self.network, n_path)
+        with open(n_path, 'wb') as f:
+            pickle.dump(self.network, f)
         #now write that path to the file
         self._header.write("," + n_path)
         #Then save the gradient files

@@ -58,7 +58,7 @@ class SimulationObject(object):
         self.C=C
 
     def update_d(self, sim):
-        nbs=sim.network.neighbors(self)
+        nbs=list(sim.network.neighbors(self))
         for i in range(0,len(nbs)):
             nbs[i].d+=1
     def set_extra_C(self,C):
@@ -255,7 +255,7 @@ class StemCell(SimulationObject):
 
             if(x < prob):
                 #differentiation occurs
-                print "diff"
+                print("diff")
                 #Transition state lasts an hour
                 #(currently treated as identical to diff state) 
                 self.state = "T"
@@ -266,7 +266,7 @@ class StemCell(SimulationObject):
 
                 x=rand.random()
                 if x<self.influ:
-                    print "C Diff"
+                    print("C Diff")
                     self.state="T"
                     sim.interC[0].change_state(self.ID,1) #Change state in Intercellular Diffusion Module
 

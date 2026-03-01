@@ -1,0 +1,18 @@
+# mESC Intercellular Differentiation Model - Python Dependencies
+# Python 3.6+ required
+
+# Core scientific computing
+numpy>=1.19.0
+scipy>=1.5.0
+
+# Network analysis
+networkx>=3.0
+
+# Visualization
+matplotlib>=3.3.0
+
+# Machine learning (for PCA analysis)
+scikit-learn>=0.24.0
+
+# Cython for extension compilation
+Cython>=3.0.0

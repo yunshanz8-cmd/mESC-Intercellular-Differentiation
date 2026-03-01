@@ -6,6 +6,7 @@ import simulationMath1 as simMath
 import networkx as nx
 import platform
 import os
+import pickle
 from Analysis import GetRadiusandCenter as grc
 from Analysis import ZeroPad
 from simulationMath1 import Distance,RandomPointOnSphere
@@ -17,11 +18,12 @@ from math import atan2
 ##path="C:\\Users\\cglen3\\Desktop\\Patterns\\"
 path="C:\\Users\\cglen3\\Desktop\\data_gpickles\\"
 spath="C:\\Users\\cglen3\\Desktop\\New Pattern Networks\\Asym Patterns 4\\"
-net=nx.read_gpickle(path+"TS2.gpickle")
+with open(path+"TS2.gpickle", 'rb') as f:
+    net = pickle.load(f)
 ##net=nx.read_gpickle(os.getcwd()+"\\new.gpickle")
 ##net=nx.read_gpickle("C:\\Users\\cglen3\\Desktop\\Pattern Networks\\undiff01.gpickle")
 rad,cent=grc(net)
-nodes=net.nodes()
+nodes=list(net.nodes())
 n=len(nodes)
 pn=39
 ts=76
@@ -163,7 +165,7 @@ while ts<=te:
 ##            if d<(globWidth+10*r.random()) or d1<(globWidth+10*r.random()):
 ##                agent.state="U"
     def closest_nbs(network,nb_dist,perc):
-        nodes=network.nodes()
+        nodes=list(network.nodes())
     ##    nbs = np.zeros((len(nodes),len(nodes)))
         nbs=np.zeros((len(nodes),2))
         
@@ -217,6 +219,7 @@ while ts<=te:
 
     s=ZeroPad(50,ts)          
     name=spath+sname+s+".gpickle"
-    print name
-    nx.write_gpickle(net,name)
+    print(name)
+    with open(name, 'wb') as f:
+        pickle.dump(net, f)
     ts=ts+1

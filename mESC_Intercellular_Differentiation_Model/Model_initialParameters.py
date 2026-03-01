@@ -5,6 +5,7 @@ from simulationObjects import *
 import networkx as nx
 import numpy as np
 import platform
+import pickle
 from IntC_FP import IntC_Diff
 from CountDirectory import newDirect
 
@@ -12,7 +13,7 @@ from CountDirectory import newDirect
 def main(x,path,inhib_value,inhib_type,inhib_time,inhib_time1):
     #Start time, end time, time step
     ts = 0
-    te = 72
+    te = 24
     dt = 1
 
     #Now make a new simulation
@@ -73,11 +74,13 @@ def main(x,path,inhib_value,inhib_type,inhib_time,inhib_time1):
     
     D_camp=444 ##um^2/sec diffusion coefficient for cyclic AMP Dworkin & Keller 1977 J. Bio Chem
     
-    net=nx.read_gpickle(os.getcwd()+"\\Colony.gpickle")
+    # Load the colony network
+    with open(os.getcwd()+"\\Colony.gpickle", 'rb') as f:
+        net = pickle.load(f)
 
-    num=len(net.nodes())
+    num=net.number_of_nodes()  # Number of nodes in the graph
 
-    maxCells= int(2*num*((te)/fastest_division_time))
+    maxCells= max(int(2*num*((te)/fastest_division_time)), num + 200)
     
     division_times=[19,51]
     #Grid dimension (NxNxN), (I'm pretty sure I stopped using this altogether...)
@@ -90,8 +93,8 @@ def main(x,path,inhib_value,inhib_type,inhib_time,inhib_time1):
     XI =IntC_Diff("cAMP",maxCells,D_camp,grid_dim,ddim,Pmax,open_prob,
                   celltype_param,division_times,sync_time)
     sim.add_interC(XI)
-    nodes=net.nodes()
-    dist=range(num)
+    nodes=list(net.nodes())
+    dist=list(range(num))  # Python 3: convert range to list before shuffling
     r.shuffle(dist)
 
     
